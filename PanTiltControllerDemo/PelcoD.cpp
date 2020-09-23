@@ -1,43 +1,19 @@
 #include "PelcoD.h"
 
-//obtain a pelco D packet as a char array, 7 bytes long.
-void PelcoD::getCommandBytes(PelcoDCommand cmd, PelcoDSpeed speed, char* message) {
+//TODO: figure out how to get and react to the replies from the pelco camera 
+//(although it is not so important RN)
+
+//All functions here return the pelco D packet as a char array, 7 bytes long, in the 'message' array.
+// nuff said.
+void PelcoD::generateMoveUpCommand(int address, int speed, char* message) {
 	unsigned char _sync_byte = 0xFF;
-	unsigned char _address = 0x00;
+	unsigned char _address = address;
 	unsigned char _cmd1 = 0x00; //
-	unsigned char _cmd2 = 0x00; //bit4:down. bit3:up. bit2:left. bit1:right.
-	unsigned char _data1 = 0xFF; //pan speed
-	unsigned char _data2 = 0xFF; //tilt speed 00-> 3F. FF for 'turbo'
-	unsigned char _chksum = 0xFF;
-
-	if (cmd == PelcoDCommand::Up)
-	{
-		_cmd2 = 0x08; //up: cmd2, bit3 is true
-	}
-	if (cmd == PelcoDCommand::Down)
-	{
-		_cmd2 = 0x10; //down: cmd2, bit4 is true
-	}
-	if (cmd == PelcoDCommand::Left)
-	{
-		_cmd2 = 0x4; //left: cmd2, bit2 is true
-	}
-	if (cmd == PelcoDCommand::Right)
-	{
-		_cmd2 = 0x2; //right: cmd2, bit1 is true
-	}
-
-	if (speed == PelcoDSpeed::Slow)
-	{
-		_data2 = _data1 = 0x10; 
-	}
-	if (speed == PelcoDSpeed::Fast)
-	{
-		_data2 = _data1 = 0x3F;
-	}
-
-	_chksum = (_sync_byte + _address + _cmd1 + _cmd2 + _data1 + _data2) % 256;
-	//char* message = new char[7]; //7 bytes long
+	unsigned char _cmd2 = 0x08; //bit4:down. bit3:up. bit2:left. bit1:right.
+	unsigned char _data1 = speed; //pan speed
+	unsigned char _data2 = speed; //tilt speed 00-> 3F (dec 63). FF for 'turbo' 
+	unsigned char _chksum = (_sync_byte + _address + _cmd1 + _cmd2 + _data1 + _data2) % 256;
+	
 	message[0] = _sync_byte;
 	message[1] = _address;
 	message[2] = _cmd1;
@@ -47,5 +23,111 @@ void PelcoD::getCommandBytes(PelcoDCommand cmd, PelcoDSpeed speed, char* message
 	message[6] = _chksum;
 
 	return;
-	
 }
+
+void PelcoD::generateMoveDownCommand(int address, int speed, char* message) {
+	unsigned char _sync_byte = 0xFF;
+	unsigned char _address = address;
+	unsigned char _cmd1 = 0x00; //
+	unsigned char _cmd2 = 0x10; //bit4:down. bit3:up. bit2:left. bit1:right.
+	unsigned char _data1 = speed; //pan speed
+	unsigned char _data2 = speed; //tilt speed 00-> 3F (dec 63). FF for 'turbo' 
+	unsigned char _chksum = (_sync_byte + _address + _cmd1 + _cmd2 + _data1 + _data2) % 256;
+	
+	message[0] = _sync_byte;
+	message[1] = _address;
+	message[2] = _cmd1;
+	message[3] = _cmd2;
+	message[4] = _data1;
+	message[5] = _data2;
+	message[6] = _chksum;
+
+	return;
+}
+
+void PelcoD::generateMoveLeftCommand(int address, int speed, char* message) {
+	unsigned char _sync_byte = 0xFF;
+	unsigned char _address = address;
+	unsigned char _cmd1 = 0x00; //
+	unsigned char _cmd2 = 0x04; //bit4:down. bit3:up. bit2:left. bit1:right.
+	unsigned char _data1 = speed; //pan speed
+	unsigned char _data2 = speed; //tilt speed 00-> 3F (dec 63). FF for 'turbo' 
+	unsigned char _chksum = (_sync_byte + _address + _cmd1 + _cmd2 + _data1 + _data2) % 256;
+	
+	message[0] = _sync_byte;
+	message[1] = _address;
+	message[2] = _cmd1;
+	message[3] = _cmd2;
+	message[4] = _data1;
+	message[5] = _data2;
+	message[6] = _chksum;
+
+	return;
+}
+
+void PelcoD::generateMoveRightCommand(int address, int speed, char* message) {
+	unsigned char _sync_byte = 0xFF;
+	unsigned char _address = address;
+	unsigned char _cmd1 = 0x00; //
+	unsigned char _cmd2 = 0x02; //bit4:down. bit3:up. bit2:left. bit1:right.
+	unsigned char _data1 = speed; //pan speed
+	unsigned char _data2 = speed; //tilt speed 00-> 3F (dec 63). FF for 'turbo' 
+	unsigned char _chksum = (_sync_byte + _address + _cmd1 + _cmd2 + _data1 + _data2) % 256;
+	
+	message[0] = _sync_byte;
+	message[1] = _address;
+	message[2] = _cmd1;
+	message[3] = _cmd2;
+	message[4] = _data1;
+	message[5] = _data2;
+	message[6] = _chksum;
+
+	return;
+}
+
+//obtain a pelco D packet as a char array, 7 bytes long.
+//presetNum 1..255
+void PelcoD::generateSetPresetCommand(int address, int presetNum, char* message) {
+	unsigned char _sync_byte = 0xFF;
+	unsigned char _address = address;
+	unsigned char _cmd1 = 0x00; //
+	unsigned char _cmd2 = 0x03; //0x03
+	unsigned char _data1 = 0x00; //00
+	unsigned char _data2 = presetNum; //presetid 
+	unsigned char _chksum = (_sync_byte + _address + _cmd1 + _cmd2 + _data1 + _data2) % 256;
+
+	message[0] = _sync_byte;
+	message[1] = _address;
+	message[2] = _cmd1;
+	message[3] = _cmd2;
+	message[4] = _data1;
+	message[5] = _data2;
+	message[6] = _chksum;
+
+	return;
+}
+
+
+//obtain a pelco D packet as a char array, 7 bytes long.
+//presetNum 1..255
+void PelcoD::generateGoToPresetCommand(int address, int presetNum, char* message) {
+	unsigned char _sync_byte = 0xFF;
+	unsigned char _address = address;
+	unsigned char _cmd1 = 0x00; //
+	unsigned char _cmd2 = 0x07; //0x07
+	unsigned char _data1 = 0x00; //00
+	unsigned char _data2 = presetNum; //presetid 
+	unsigned char _chksum = (_sync_byte + _address + _cmd1 + _cmd2 + _data1 + _data2) % 256;
+
+	message[0] = _sync_byte;
+	message[1] = _address;
+	message[2] = _cmd1;
+	message[3] = _cmd2;
+	message[4] = _data1;
+	message[5] = _data2;
+	message[6] = _chksum;
+
+	return;
+}
+
+

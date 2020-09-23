@@ -22,44 +22,55 @@ int main()
 	if (device == "pelco") {
 		PanTiltController panTiltController = PanTiltController(); //wonder if we need the new keyword?
 		string portname;
+		int id;
 
 		while (panTiltController.queryStatus() == 1)
 		{
-			cout << "please enter the serial port name (eg: COM5): " << endl;
-			cin >> portname;
+			cout << "please enter the serial port name and camera id. EG: [COM5] [1] : " << endl;
+			cin >> portname >> id;
 			panTiltController.initialiseRS485(portname); //try!
 			if (panTiltController.queryStatus() == 1) {
 				cout << "unable to connect...." << endl;
 			}
 		}
 		cout << "Connection success!"<< endl;
+		panTiltController.setCameraAddress(id);
 
 		std::string command = "";
-		std::string direction = "";
-		std::string speed = "slow";
+		//std::string direction = "";
+		int speed = 10;
 		
 		while (true)
 		{
-			cout << "enter command to move pantilt: [command] [direction]" << endl;
+			cout << "enter command to move pantilt: [command] [speed/presetNum]" << endl;
+			cout << "[command: up-down-left-right- setpreset - gotopreset] " << endl;
+			cout << "[speed: 1..30      presetNum: 1..255 ]" << endl;
 
-			cin >> command >> direction /*>> speed*/;
+			cin >> command >> speed;
 			std::transform(command.begin(), command.end(), command.begin(), ::tolower);
-			std::transform(direction.begin(), direction.end(), direction.begin(), ::tolower);
-			if (direction == "up")
+			if (command == "up")
 			{
 				panTiltController.move("up", speed);
 			}
-			else if (direction == "down")
+			else if (command == "down")
 			{
 				panTiltController.move("down", speed);
 			}
-			else if (direction == "left")
+			else if (command == "left")
 			{
 				panTiltController.move("left", speed);
 			}
-			else if (direction == "right")
+			else if (command == "right")
 			{
 				panTiltController.move("right", speed);
+			}
+			else if (command == "setpreset")
+			{
+				panTiltController.setPreset(speed);
+			}
+			else if (command == "gotopreset")
+			{
+				panTiltController.goToPreset(speed);
 			}
 		}
 		

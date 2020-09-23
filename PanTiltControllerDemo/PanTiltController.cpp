@@ -4,6 +4,7 @@
 //1) up down left right at various speeds
 //2) go to preset location (x)
 //3) set the current position as preest location (x)
+//TODO change library to boost asio 
 
 PanTiltController::PanTiltController() //Constructor
 {
@@ -48,30 +49,47 @@ bool PanTiltController::queryStatus()
 }
 
 
-void PanTiltController::move(std::string direction, std::string speed)
+bool PanTiltController::setCameraAddress(int address)
 {
-	char* message = new char[8]; //7 byte buffer + 1 nul at the end!
-	message[7] = '\0'; //Seriously, fuck cpp
+	cameraAddress = address;
+	return 0;
+}
+
+void PanTiltController::move(std::string direction, int speed)
+{
+	char* message = new char[7]; //7 byte buffer (Note: in cpp, nul is the character 0x00, or '/0'. it is used to terminate the c string (c char array)). Unfortunately, we use 0x00 alot in the Serial communications. So if we debug-print this variable, we can often end up with a string that is shorter than expected. Strlen() gives us completely wrong length too.
+	//message[7] = '\0'; //Seriously, fuck cpp
 
 	// this is pelco-d
 	if (direction == "up")
-		PelcoD::getCommandBytes(PelcoD::PelcoDCommand::Up, PelcoD::PelcoDSpeed::Slow, message);
+		PelcoD::generateMoveUpCommand(cameraAddress, speed, message);
 	else if (direction == "down")
-		PelcoD::getCommandBytes(PelcoD::PelcoDCommand::Down, PelcoD::PelcoDSpeed::Slow, message);
+		PelcoD::generateMoveDownCommand(cameraAddress, speed, message);
 	else if (direction == "left")
-		PelcoD::getCommandBytes(PelcoD::PelcoDCommand::Left, PelcoD::PelcoDSpeed::Slow, message);
+		PelcoD::generateMoveUpCommand(cameraAddress, speed, message);
 	else if (direction == "right")
-		PelcoD::getCommandBytes(PelcoD::PelcoDCommand::Right, PelcoD::PelcoDSpeed::Slow, message);
+		PelcoD::generateMoveUpCommand(cameraAddress, speed, message);
 	else
 		return;
-	//std::cout << "wrote : " << _message <<std::endl;
-	std::cout << std::hex << static_cast<void*>(message) << std::endl;
+	//std::cout << std::hex << static_cast<void*>(message) << std::endl; //this i not helpful! and misleading!
 	panTiltSerialPort->writeSerialPort(message, 7);
 	delete[] message;	
 }
 
-//
-//void PanTiltController::goToPreset(int presetNumber)
-//{
-//	presetNumber
-//}
+//Send command to PT, move it to the preset X
+void PanTiltController::goToPreset(int presetNumber)
+{
+	char* message = new char[7];
+	PelcoD::generateGoToPresetCommand(cameraAddress, presetNumber, message);
+	panTiltSerialPort->writeSerialPort(message, 7);
+	delete[] message;
+}
+
+//Send command to PT, set current position to preset X
+void PanTiltController::setPreset(int presetNumber)
+{
+	char* message = new char[7];
+	PelcoD::generateSetPresetCommand(cameraAddress, presetNumber, message);
+	panTiltSerialPort->writeSerialPort(message, 7);
+	delete[] message;
+}
