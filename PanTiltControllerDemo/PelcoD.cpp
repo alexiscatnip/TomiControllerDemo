@@ -1,6 +1,6 @@
 #include "PelcoD.h"
 
-//TODO: figure out how to get and react to the replies from the pelco camera 
+//TODO: add functions that can decipher the serial messages from the pantilt.
 //(although it is not so important RN)
 
 //All functions here return the pelco D packet as a char array, 7 bytes long, in the 'message' array.
