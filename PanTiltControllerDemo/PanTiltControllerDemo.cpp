@@ -5,11 +5,14 @@
 #include <string>
 #include "PantiltController.h"
 #include "PanTiltControllerDemo.h"
-#include <algorithm> 
+//#include <algorithm> 
+#include "RvBaseInterface.h"
 using namespace std;
 
 int main()
 {
+	RvBaseInterface::getServerStatus();
+
 	std::string device;
 
 	cout << "===demo app===" << endl << endl;
@@ -75,7 +78,11 @@ int main()
 		}
 		
 	}
+	else if (device == "restful")
+	{
 
+		RvBaseInterface();
+	}
 	else {
 		cout << "hey, i did not understand that. This command does not exist yet. " << endl;
 	}

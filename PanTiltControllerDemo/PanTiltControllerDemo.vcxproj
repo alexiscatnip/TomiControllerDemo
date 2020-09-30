@@ -154,12 +154,14 @@
     <ClCompile Include="PanTiltController.cpp" />
     <ClCompile Include="PanTiltControllerDemo.cpp" />
     <ClCompile Include="PelcoD.cpp" />
+    <ClCompile Include="RvBaseInterface.cpp" />
     <ClCompile Include="SerialPort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PanTiltController.h" />
     <ClInclude Include="PanTiltControllerDemo.h" />
     <ClInclude Include="PelcoD.h" />
+    <ClInclude Include="RvBaseInterface.h" />
     <ClInclude Include="SerialPort.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

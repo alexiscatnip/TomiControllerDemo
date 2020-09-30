@@ -27,6 +27,9 @@
     <ClCompile Include="PelcoD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RvBaseInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PanTiltControllerDemo.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PelcoD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RvBaseInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
