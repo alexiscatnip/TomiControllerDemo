@@ -4,7 +4,6 @@
 //(although it is not so important RN)
 
 //All functions here return the pelco D packet as a char array, 7 bytes long, in the 'message' array.
-// nuff said.
 void PelcoD::generateMoveUpCommand(int address, int speed, char* message) {
 	unsigned char _sync_byte = 0xFF;
 	unsigned char _address = address;

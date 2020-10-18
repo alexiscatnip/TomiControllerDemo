@@ -20,6 +20,10 @@ using namespace web::http::experimental::listener;          // HTTP server
 //using namespace web::experimental::web_sockets::client;     // WebSockets client
 using namespace web::json;                                  // JSON library
 
+
+#include<iostream> 
+#include<string> // for string class 
+
 //This class is the interface to communicate with the rvbase. 
 //We current assume that the rv base is acting as a restful server, and it has its own router.
 //IE: [IPC (client)] --wifi->     [RVrouter--ethernet cable-> RVpc(server)]
@@ -27,12 +31,20 @@ using namespace web::json;                                  // JSON library
 class RvBaseInterface
 {
 public:
+	static RvBaseInterface& instance(){ // Singleton
+		static RvBaseInterface c;
+		return c;
+	}
+private:
 	RvBaseInterface();
+	
 	//Open connection to the server:
-	static bool getServerStatus();
-
+	bool getServerStatus();
 	//POST/GET on the server.
 	void getStatus(); //returns the checkpoint that the robot is in: moving-to-next or waiting-for-us.
 	void reportCompletion(); //tells the robot base that we are done with the spraying.
+
+	std::string demo_url = "https://reqres.in"; //for demo app
+	std::string url = "192.168.0.0"; //url (actual)
 };
 

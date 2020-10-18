@@ -2,6 +2,8 @@
 
 RvBaseInterface::RvBaseInterface()
 {
+	auto demo_url = U("https://reqres.in"); //demoURL
+
 	//The following copypasta is from the github tutorial
 	////start connection to the server.
  //   auto fileStream = std::make_shared<ostream>();
@@ -49,7 +51,9 @@ RvBaseInterface::RvBaseInterface()
 
 bool RvBaseInterface::getServerStatus()
 {
-	auto url = U("https://reqres.in");
+
+	const char* c = demo_url.c_str();
+	auto url = U("google.com");
 	// Make a GET request.
 	auto requestJson = http_client(url)
 		.request(methods::GET,
@@ -68,6 +72,7 @@ bool RvBaseInterface::getServerStatus()
 
 		// Get the data field.
 				.then([](json::value jsonObject) {
+				printf("GET: Managed to get the data:");
 				return jsonObject[U("data")];
 					})
 

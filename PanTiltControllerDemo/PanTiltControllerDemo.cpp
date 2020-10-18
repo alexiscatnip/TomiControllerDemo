@@ -80,8 +80,15 @@ int main()
 	}
 	else if (device == "restful")
 	{
+		while (true) {
+			auto _instance = RvBaseInterface();
+			cout << "press enter to get a data..." << endl;
+			string x;
+			getline(cin,x);
 
-		RvBaseInterface();
+
+			_instance.getServerStatus();
+		}
 	}
 	else {
 		cout << "hey, i did not understand that. This command does not exist yet. " << endl;
