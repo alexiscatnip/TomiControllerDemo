@@ -49,7 +49,11 @@ RvBaseInterface::RvBaseInterface()
 
 }
 
-bool RvBaseInterface::getServerStatus()
+//Returns:
+//-1: error (not connected?)
+//0: not ready.
+//1: ok!
+int RvBaseInterface::getStatus()
 {
 
 	const char* c = demo_url.c_str();
@@ -94,8 +98,10 @@ bool RvBaseInterface::getServerStatus()
 	return false;
 }
 
-void RvBaseInterface::getStatus()
+std::string RvBaseInterface::getStatus()
 {
-
+	//return "error";
+	return "idle"; //(no job)
+	//return "waiting for job to be done";
 
 }

@@ -21,6 +21,8 @@ using namespace web::http::experimental::listener;          // HTTP server
 using namespace web::json;                                  // JSON library
 
 
+
+
 #include<iostream> 
 #include<string> // for string class 
 
@@ -31,19 +33,14 @@ using namespace web::json;                                  // JSON library
 class RvBaseInterface
 {
 public:
-	static RvBaseInterface& instance(){ // Singleton
-		static RvBaseInterface c;
-		return c;
-	}
-private:
 	RvBaseInterface();
-	
-	//Open connection to the server:
-	bool getServerStatus();
+	std::string getStatus();
 	//POST/GET on the server.
-	void getStatus(); //returns the checkpoint that the robot is in: moving-to-next or waiting-for-us.
+	//GET status
+	int getStatus(); //returns the checkpoint that the robot is in: moving-to-next or waiting-for-us.
 	void reportCompletion(); //tells the robot base that we are done with the spraying.
 
+private:
 	std::string demo_url = "https://reqres.in"; //for demo app
 	std::string url = "192.168.0.0"; //url (actual)
 };

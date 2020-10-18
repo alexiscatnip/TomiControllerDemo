@@ -5,13 +5,13 @@
 #include <string>
 #include "PantiltController.h"
 #include "PanTiltControllerDemo.h"
+#include "Tasker.h"
 //#include <algorithm> 
 #include "RvBaseInterface.h"
 using namespace std;
 
 int main()
 {
-	RvBaseInterface::getServerStatus();
 
 	std::string device;
 
@@ -87,9 +87,14 @@ int main()
 			getline(cin,x);
 
 
-			_instance.getServerStatus();
+			_instance.getStatus();
 		}
 	}
+	else if (device == "tasker") //the tasker is a demo of the task scheduling. It simulates the sprayer and the restful interfacing.
+	{
+
+	}
+
 	else {
 		cout << "hey, i did not understand that. This command does not exist yet. " << endl;
 	}
