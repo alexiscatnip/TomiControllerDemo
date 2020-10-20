@@ -6,18 +6,19 @@
 //This class lets you turn on/off the spraygun with just a function.
 //TODO change library to boost asio 
 
-SprayButton::SprayButton() //Constructor
+SprayButton::SprayButton(std::string port_name) //Constructor
 {
 	//status = StatusEnum::NOT_INITIALISED;
+	_port_name = port_name;
 	initialisePort(port_name);
 };
 
 //start the serial object with the port name (like 'COM5')
 //Return:	0 success
 //			1 failure
-bool SprayButton::initialisePort(std::string port_name)
+bool SprayButton::initialisePort()
 {
-	const char *portName = port_name.c_str();
+	const char *portName = _port_name.c_str();
 	//strcpy(portName, port_name.c_str()); //std::string -> char * , because the library only accept const char*
 	port_instance = new SerialPort(portName);
 
@@ -31,6 +32,11 @@ bool SprayButton::initialisePort(std::string port_name)
 	{
 		return 1;
 	}
+}
+
+bool SprayButton::closePort()
+{
+	return false;
 }
 
 

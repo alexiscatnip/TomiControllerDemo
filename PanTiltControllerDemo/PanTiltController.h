@@ -13,7 +13,7 @@ class PanTiltController
 private:
 	int cameraAddress = 1; //the address that the pelco camera is set to (dip switches)
 	SerialPort* panTiltSerialPort;
-	std::string port_name = "COM5"; //lul?
+	std::string port_name = "COM5"; 
 	enum class StatusEnum{READY, NOT_INITIALISED};
 	StatusEnum status = StatusEnum::NOT_INITIALISED;
 public:

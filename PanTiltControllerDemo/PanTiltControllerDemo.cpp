@@ -92,7 +92,12 @@ int main()
 	}
 	else if (device == "tasker") //the tasker is a demo of the task scheduling. It simulates the sprayer and the restful interfacing.
 	{
-
+		Tasker tasker = Tasker();
+		tasker.initialise();
+		while (true) 
+		{
+			tasker.update();
+		}
 	}
 
 	else {

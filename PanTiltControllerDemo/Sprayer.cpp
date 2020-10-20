@@ -1,10 +1,10 @@
 #include "Sprayer.h"
 
-Sprayer::Sprayer()
+Sprayer::Sprayer(std::string comport_sprayer_button, std::string comport_pantilt)
 {
 	//sprayer owns the spraygun and the pan-tilt.
-	_pantiltcontroller_instance = PanTiltController();
-	_spray_button_instance = SprayButton();
+	_pantiltcontroller_instance = PanTiltController(comport_pantilt);
+	_spray_button_instance = SprayButton(comport_sprayer_button);
 
 
 }

@@ -5,10 +5,17 @@
 class Sprayer
 {//what does sprayer do? It sprays like a hooman being!
 public:
-	Sprayer();
+	Sprayer(std::string comport_sprayer_button, std::string comport_pantilt);
+	
 	void update();
+	//sets the area to spray, where x1,y1 is the lower left corner, x2y2 is the upper right corner. these numbers represent the row and columns in the grid.
 	bool setSprayArea(int x1, int y1, int x2, int y2);
+	//tells the sprayer to start spraying immediately.
 	bool startSprayingJob();
+	//returns if we are spraying right now.
+	bool isSpraying();
+	//returns is the spray job complete?
+	bool isJobComplete();
 private:
 	PanTiltController _pantiltcontroller_instance;
 	SprayButton _spray_button_instance;

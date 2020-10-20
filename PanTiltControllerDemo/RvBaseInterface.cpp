@@ -1,6 +1,6 @@
 #include "RvBaseInterface.h"
 
-RvBaseInterface::RvBaseInterface()
+RvBaseInterface::RvBaseInterface(std::string addr)
 {
 	auto demo_url = U("https://reqres.in"); //demoURL
 
@@ -98,7 +98,7 @@ int RvBaseInterface::getStatus()
 	return false;
 }
 
-std::string RvBaseInterface::getStatus()
+RvBaseInterface::StatusEnum RvBaseInterface::getStatus()
 {
 	//return "error";
 	return "idle"; //(no job)

@@ -33,15 +33,23 @@ using namespace web::json;                                  // JSON library
 class RvBaseInterface
 {
 public:
-	RvBaseInterface();
-	std::string getStatus();
-	//POST/GET on the server.
-	//GET status
-	int getStatus(); //returns the checkpoint that the robot is in: moving-to-next or waiting-for-us.
-	void reportCompletion(); //tells the robot base that we are done with the spraying.
+	RvBaseInterface(std::string addr);
+	//0: NOT_INITIALISED: an 'unknown or undefined' state
+	//1: IDLE: no job. the base is idling, and so are we.
+	//2: NO_RESPONSE: we are unable to talk to the base at all.
+	//3: WAITING_FOR_US: Job: The base is waiting for us (we are stills spraying.).
+	//4: MOVING_TO_NEXT_WAYPOINT: Job: We are waiting for the base to get to new loc..
+	enum class StatusEnum { NOT_INITIALISED, NO_RESPONSE, IDLE, WAITING_FOR_US, MOVING_TO_NEXT_WAYPOINT, NEW_JOB };
+	RvBaseInterface::StatusEnum getStatus();
+	int getRobotBaseSprayPattern();
+	
+	StatusEnum status = StatusEnum::NOT_INITIALISED;
+	void reportCompletionToBase(); //Post: tells the robot base that we are done with the spraying.
 
 private:
 	std::string demo_url = "https://reqres.in"; //for demo app
 	std::string url = "192.168.0.0"; //url (actual)
-};
+	void requestSprayJobInfo(); //Get: asks the robot base for the job info at the present location (spray area, for instance.)
 
+	
+};
