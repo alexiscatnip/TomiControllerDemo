@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="PanTiltController.cpp" />
     <ClCompile Include="PanTiltControllerDemo.cpp" />
     <ClCompile Include="PelcoD.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="PanTiltController.h" />
     <ClInclude Include="PanTiltControllerDemo.h" />
     <ClInclude Include="PelcoD.h" />
